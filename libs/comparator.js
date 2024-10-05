@@ -40,8 +40,6 @@ const getProbaplyChangedKeys = (oldKeys, newKeys) => {
 const compareKeys = (keys, oldObject, newObject) => {
   const result = {};
 
-  // https://stackoverflow.com/questions/55844608/stuck-with-eslint-error-i-e-separately-loops-should-be-avoided-in-favor-of-arra
-  // eslint-disable-next-line no-restricted-syntax
   for (const [key, keyState] of keys) {
     switch (keyState) {
       case keyStates.inserted:
