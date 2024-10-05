@@ -6,13 +6,6 @@ export const keyStates = {
   removed: 'removed',
 };
 
-const getKeys = (object) => {
-  if (Object.keys(object) === 0) {
-    return new Set();
-  }
-  return new Set(Object.keys(object).sort());
-};
-
 const getInsertedKeys = (oldKeys, newKeys) => {
   const result = [];
   for (const key of newKeys.difference(oldKeys)) {
@@ -79,8 +72,8 @@ const compareKeys = (keys, oldObject, newObject) => {
 };
 
 const compareObjectsShallow = (oldObject, newObject) => {
-  const oldKeys = getKeys(oldObject);
-  const newKeys = getKeys(newObject);
+  const oldKeys = new Set(Object.keys(oldObject));
+  const newKeys = new Set(Object.keys(newObject));
 
   const insertedKeys = getInsertedKeys(oldKeys, newKeys);
   const removedKeys = getRemovedKeys(oldKeys, newKeys);
