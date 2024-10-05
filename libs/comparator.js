@@ -65,7 +65,7 @@ const compareKeys = (keys, oldObject, newObject) => {
       }
         break;
       default:
-        break;
+        throw Error(`Comparator got an unexpected keyState ${keyState}`);
     }
   }
   return result;

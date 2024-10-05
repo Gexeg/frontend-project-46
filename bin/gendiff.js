@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { program } from 'commander';
-import { readFile, isFileAllowed} from '../libs/parser.js';
+import { readFile, isFileAllowed } from '../libs/parser.js';
 import compareObjectsShallow from '../libs/comparator.js';
 import formatOutput from '../libs/formatter.js';
 

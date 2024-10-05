@@ -7,5 +7,8 @@ publish:
 lint:
 	npx eslint .
 
+lint fix:
+	npx eslint .
+
 test:
-	npm test
+	node --experimental-vm-modules node_modules/jest/bin/jest.js

@@ -19,7 +19,7 @@ const formatOutput = (data) => {
         result.push(`\t+${key}: ${meta.newValue}`);
         break;
       default:
-        break;
+        throw Error(`Formatter got an unexpected valueState ${state}`);
     }
   }
   result.push('}');
