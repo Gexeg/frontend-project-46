@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { parse as parseYML }  from 'yaml'
+import { parse as parseYML } from 'yaml';
 import path from 'path';
 
 const getFileParser = (filepath) => {
@@ -23,7 +23,7 @@ const readYmlFile = (filepath) => {
 const parsers = {
   '.json': readJsonFile,
   '.yml': readYmlFile,
-  '.yaml': readYmlFile
-}
+  '.yaml': readYmlFile,
+};
 
 export default getFileParser;

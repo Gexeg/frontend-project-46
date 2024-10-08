@@ -23,7 +23,6 @@ test('read json file positive', () => {
   expect(parser(jsonFilePath)).toEqual(expected);
 });
 
-
 test('read yml file positive', () => {
   const expected1 = {
     host: 'hexlet.io',
@@ -37,13 +36,12 @@ test('read yml file positive', () => {
   const expected2 = {
     host: 'hexlet.io',
     timeout: 20,
-    verbose: true
+    verbose: true,
   };
 
   const parser = getFileParser(ymlFile2Path);
   expect(parser(ymlFile2Path)).toEqual(expected2);
 });
-
 
 test('read non json file', () => {
   const parser = getFileParser(csvFilePath);
