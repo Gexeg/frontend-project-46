@@ -4,12 +4,12 @@ import formatOutput from '../libs/formatter.js';
 let compareResult;
 
 beforeAll(() => {
-  compareResult = {
-    a: { state: valueStates.unchanged, oldValue: 123 },
-    b: { state: valueStates.removed, oldValue: 'some_data_to_remove' },
-    c: { state: valueStates.changed, oldValue: false, newValue: true },
-    d: { state: valueStates.inserted, newValue: 'some_new_data' },
-  };
+  compareResult = [
+    ['a', { state: valueStates.unchanged, value: 123 }],
+    ['b', { state: valueStates.removed, value: 'some_data_to_remove' }],
+    ['c', { state: valueStates.changed, value: false, newValue: true }],
+    ['d', { state: valueStates.inserted, value: 'some_new_data' }],
+  ];
 });
 
 test('format', () => {
