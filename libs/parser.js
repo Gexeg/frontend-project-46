@@ -22,7 +22,8 @@ const readYmlFile = (filepath) => {
 
 const parsers = {
   '.json': readJsonFile,
-  '.yml': readYmlFile
+  '.yml': readYmlFile,
+  '.yaml': readYmlFile
 }
 
 export default getFileParser;
