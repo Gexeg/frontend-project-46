@@ -1,10 +1,12 @@
-import { readFile, isFileAllowed } from '../libs/parser.js';
+import getFileParser from '../libs/parser.js';
 
 let jsonFilePath;
 let csvFilePath;
+let ymlFilePath;
 
 beforeAll(() => {
   jsonFilePath = '__tests__/__fixtures__/file1.json';
+  ymlFilePath = '__tests__/__fixtures__/file1.yml';
   csvFilePath = '__tests__/__fixtures__/wrong_file.csv';
 });
 
@@ -15,16 +17,24 @@ test('read json file positive', () => {
     proxy: '123.234.53.22',
     follow: false,
   };
-  expect(readFile(jsonFilePath)).toEqual(expected);
+  const parser = getFileParser(jsonFilePath);
+  expect(parser(jsonFilePath)).toEqual(expected);
 });
+
+
+test('read yml file positive', () => {
+  const expected = {
+    host: 'hexlet.io',
+    timeout: 50,
+    proxy: '123.234.53.22',
+    follow: false,
+  };
+  const parser = getFileParser(ymlFilePath);
+  expect(parser(ymlFilePath)).toEqual(expected);
+});
+
 
 test('read non json file', () => {
-  expect(() => {
-    readFile(csvFilePath);
-  }).toThrow(SyntaxError);
-});
-
-test('check is file allowed', () => {
-  expect(isFileAllowed(jsonFilePath)).toBe(true);
-  expect(isFileAllowed(csvFilePath)).toBe(false);
+  const parser = getFileParser(csvFilePath);
+  expect(parser).toBe(undefined);
 });

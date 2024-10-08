@@ -1,16 +1,28 @@
 import { readFileSync } from 'node:fs';
+import { parse as parseYML }  from 'yaml'
 import path from 'path';
 
-const allowedExtensions = ['.json'];
-
-export const isFileAllowed = (filepath) => {
+const getFileParser = (filepath) => {
   const basename = path.posix.basename(filepath);
   const extension = path.extname(basename);
-  return allowedExtensions.includes(extension);
+  return parsers[extension];
 };
 
-export const readFile = (filepath) => {
+const readJsonFile = (filepath) => {
   const buff = readFileSync(filepath);
   const obj = JSON.parse(buff);
   return obj;
 };
+
+const readYmlFile = (filepath) => {
+  const content = readFileSync(filepath, 'utf-8');
+  const obj = parseYML(content);
+  return obj;
+};
+
+const parsers = {
+  '.json': readJsonFile,
+  '.yml': readYmlFile
+}
+
+export default getFileParser;
