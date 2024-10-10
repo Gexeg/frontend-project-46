@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 import { program } from 'commander';
-import getFileParser from '../libs/parser.js';
-import compareObjectsShallow from '../libs/comparator.js';
-import formatOutput from '../libs/formatters/index.js';
-import { formatterNames } from '../libs/const.js';
+import getFileParser from './libs/parser.js';
+import compareObjectsShallow from './libs/comparator.js';
+import formatOutput from './libs/formatters/index.js';
+import { formatterNames } from './libs/const.js';
 
 const genDiff = (fp1, fp2, formatName = formatterNames.stylish) => {
   const parser1 = getFileParser(fp1);
