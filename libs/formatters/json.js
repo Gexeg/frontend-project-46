@@ -1,7 +1,3 @@
-import { valueStates } from '../const.js';
-
-const jsonFormatter = (changelog) => {
-  return changelog;
-};
+const jsonFormatter = (changelog) => changelog;
 
 export default jsonFormatter;

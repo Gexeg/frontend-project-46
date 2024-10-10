@@ -1,5 +1,5 @@
 import { valueStates, formatterNames } from '../libs/const.js';
-import formatOutput from '../libs/formatters/formatterGetter.js';
+import formatOutput from '../libs/formatters/index.js';
 
 let compareResult;
 
@@ -76,57 +76,57 @@ Property 'e.nested.key_to_remove' was removed`;
 
 test('json format', () => {
   const expected = {
-    "state": "changed",
-    "value": {
-      "a": {
-        "state": "unchanged",
-        "value": 123
-      }, 
-      "b": {
-        "state": "removed", 
-        "value": "some_data_to_remove"
-      }, 
-      "c": {
-        "nested": false,
-        "newValue": true,
-        "state": "changed",
-        "value": false
+    state: 'changed',
+    value: {
+      a: {
+        state: 'unchanged',
+        value: 123,
       },
-      "d": {
-        "state": "inserted",
-        "value": "some_new_data"
-      }, 
-      "e": {
-        "nested": true,
-        "state": "changed",
-        "value": {
-          "key_to_add": {
-            "state": "inserted",
-            "value": 3
-          }, 
-          "nested": {
-            "nested": true, 
-            "state": "changed", 
-            "value": {
-              "go_deeper": {
-                "state": "unchanged", 
-                "value": 1
-              }, 
-              "key_to_remove": {
-                "state": "removed",
-                "value": 2
-              }
-            }
-          }
-        }
-      }, 
-      "f": {
-        "state": "inserted", 
-        "value": {
-          "abc": 123
-        }
-      }
-    }
+      b: {
+        state: 'removed',
+        value: 'some_data_to_remove',
+      },
+      c: {
+        nested: false,
+        newValue: true,
+        state: 'changed',
+        value: false,
+      },
+      d: {
+        state: 'inserted',
+        value: 'some_new_data',
+      },
+      e: {
+        nested: true,
+        state: 'changed',
+        value: {
+          key_to_add: {
+            state: 'inserted',
+            value: 3,
+          },
+          nested: {
+            nested: true,
+            state: 'changed',
+            value: {
+              go_deeper: {
+                state: 'unchanged',
+                value: 1,
+              },
+              key_to_remove: {
+                state: 'removed',
+                value: 2,
+              },
+            },
+          },
+        },
+      },
+      f: {
+        state: 'inserted',
+        value: {
+          abc: 123,
+        },
+      },
+    },
   };
   expect(formatOutput(formatterNames.json, compareResult)).toEqual(expected);
 });
