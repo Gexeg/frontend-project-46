@@ -1,10 +1,10 @@
 import stylishFormatter from './stylish.js';
-import flatFormatter from './flat.js';
+import plainFormatter from './plain.js';
 import { formatterNames } from '../const.js';
 
 const formatters = {
   [formatterNames.stylish]: stylishFormatter,
-  [formatterNames.flat]: flatFormatter,
+  [formatterNames.plain]: plainFormatter,
 };
 
 function formatOutput(formatterName, changelog) {

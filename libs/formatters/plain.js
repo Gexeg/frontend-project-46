@@ -1,17 +1,17 @@
 import { valueStates } from '../const.js';
 import { isObject } from '../utils.js';
 
-const flatFormatter = (changelog) => {
+const plainFormatter = (changelog) => {
   console.log(changelog);
   if (changelog.state === valueStates.unchanged) {
     return changelog.value;
   }
-  const result = formatChangelogFlat(changelog);
+  const result = formatChangelogPlain(changelog);
 
   return result.flat(Infinity).join('\n');
 };
 
-function formatChangelogFlat({ state, value }, prefix = '') {
+function formatChangelogPlain({ state, value }, prefix = '') {
   if (state === valueStates.unchanged) {
     return value;
   }
@@ -23,7 +23,7 @@ function formatChangelogFlat({ state, value }, prefix = '') {
     switch (elState) {
       case valueStates.changed:
         if (elMeta.nested) {
-          acc.push(formatChangelogFlat({ state: elState, value: elValue }, keyPath));
+          acc.push(formatChangelogPlain({ state: elState, value: elValue }, keyPath));
         } else {
           const valueStub = isObject(elMeta.newValue) ? '[complex value]' : elMeta.newValue;
           acc.push(`Property '${keyPath}' was updated. From '${elValue}' to '${valueStub}'`);
@@ -45,4 +45,4 @@ function formatChangelogFlat({ state, value }, prefix = '') {
   return result;
 }
 
-export default flatFormatter;
+export default plainFormatter;

@@ -64,15 +64,12 @@ test('stylish format', () => {
   expect(formatOutput(formatterNames.stylish, compareResult)).toEqual(expected);
 });
 
-test('flat format', () => {
+test('plain format', () => {
   const expected = `Property 'b' was removed
 Property 'c' was updated. From 'false' to 'true'
-Property 'c' was removed
 Property 'f' was added with value: '[complex value]'
 Property 'd' was added with value: 'some_new_data'
 Property 'e.key_to_add' was added with value: '3'
-Property 'e.nested.key_to_remove' was removed
-Property 'e.nested' was removed
-Property 'e' was removed`;
-  expect(formatOutput(formatterNames.flat, compareResult)).toEqual(expected);
+Property 'e.nested.key_to_remove' was removed`;
+  expect(formatOutput(formatterNames.plain, compareResult)).toEqual(expected);
 });
