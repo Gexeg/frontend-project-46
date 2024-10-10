@@ -7,4 +7,5 @@ export const valueStates = {
 
 export const formatterNames = {
   stylish: 'stylish',
+  flat: 'flat',
 };
