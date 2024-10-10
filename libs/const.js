@@ -8,4 +8,5 @@ export const valueStates = {
 export const formatterNames = {
   stylish: 'stylish',
   plain: 'plain',
+  json: 'json',
 };

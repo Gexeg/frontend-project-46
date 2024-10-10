@@ -2,7 +2,6 @@ import { valueStates } from '../const.js';
 import { isObject } from '../utils.js';
 
 const plainFormatter = (changelog) => {
-  console.log(changelog);
   if (changelog.state === valueStates.unchanged) {
     return changelog.value;
   }

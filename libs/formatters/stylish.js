@@ -1,7 +1,6 @@
 import { valueStates } from '../const.js';
 
 const stylishFormatter = (changelog) => {
-  console.log(changelog);
   if (changelog.state === valueStates.unchanged) {
     return changelog.value;
   }
