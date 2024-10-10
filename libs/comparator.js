@@ -1,57 +1,59 @@
 import { valueStates } from './const.js';
+import { isObject } from './utils.js';
 
-const getInsertedKeys = (oldKeys, newKeys) => Array.from(newKeys.difference(oldKeys));
-const getRemovedKeys = (oldKeys, newKeys) => Array.from(oldKeys.difference(newKeys));
-const getProbaplyChangedKeys = (oldKeys, newKeys) => Array.from(oldKeys.intersection(newKeys));
-
-const getValuesWithMeta = (keys, object, state) => {
-  const result = [];
-  for (const key of keys) {
-    result.push([key, {
-      state,
-      value: object[key],
-    }]);
-  }
-  return result;
+const keyTypes = {
+  inserted: 'inserted',
+  removed: 'removed',
+  remain: 'remain',
 };
 
-const getRemainingValuesMeta = (keys, oldObject, newObject) => {
-  const result = [];
-
-  for (const key of keys) {
-    const oldValue = oldObject[key];
-    const newValue = newObject[key];
-    if (oldValue === newValue) {
-      result.push([key, {
-        state: valueStates.unchanged,
-        value: oldValue,
-      }]);
-    } else {
-      result.push([key, {
-        state: valueStates.changed,
-        value: oldValue,
-        newValue,
-      }]);
-    }
+const compareObjectsNested = (oldObject, newObject) => {
+  if (JSON.stringify(oldObject) === JSON.stringify(newObject)) {
+    return { state: valueStates.unchanged, value: oldObject };
   }
-  return result;
-};
-
-const compareObjectsShallow = (oldObject, newObject) => {
   const oldKeys = new Set(Object.keys(oldObject));
   const newKeys = new Set(Object.keys(newObject));
-
-  const insertedKeys = getInsertedKeys(oldKeys, newKeys);
-  const insertedValues = getValuesWithMeta(insertedKeys, newObject, valueStates.inserted);
-
-  const removedKeys = getRemovedKeys(oldKeys, newKeys);
-  const removedValues = getValuesWithMeta(removedKeys, oldObject, valueStates.removed);
-
-  const remainingKeys = getProbaplyChangedKeys(oldKeys, newKeys);
-  const remainingValues = getRemainingValuesMeta(remainingKeys, oldObject, newObject);
-
-  const result = [...insertedValues, ...removedValues, ...remainingValues].sort();
-  return result;
+  const keysWithStates = compareKeys(oldKeys, newKeys);
+  const result = keysWithStates.reduce((acc, [key, type]) => {
+    switch (type) {
+      case keyTypes.inserted:
+        acc[key] = { state: valueStates.inserted, value: newObject[key] };
+        break;
+      case keyTypes.removed:
+        acc[key] = { state: valueStates.removed, value: oldObject[key] };
+        break;
+      default: // keyTypes.remain
+        acc[key] = processRemainingKey(key, oldObject, newObject);
+    }
+    return acc;
+  }, {});
+  return { state: valueStates.changed, value: result };
 };
 
-export default compareObjectsShallow;
+function compareKeys(oldKeys, newKeys) {
+  const inserted = Array.from(newKeys.difference(oldKeys)).map((key) => [key, keyTypes.inserted]);
+  const removed = Array.from(oldKeys.difference(newKeys)).map((key) => [key, keyTypes.removed]);
+  const remain = Array.from(oldKeys.intersection(newKeys)).map((key) => [key, keyTypes.remain]);
+  return [...inserted, ...removed, ...remain].sort();
+}
+
+function processRemainingKey(key, oldObject, newObject) {
+  const oldValue = oldObject[key];
+  const newValue = newObject[key];
+  if (oldValue === newValue) {
+    return {
+      state: valueStates.unchanged,
+      value: oldValue,
+    };
+  } if (isObject(oldValue) && isObject(newValue)) {
+    return { nested: true, ...compareObjectsNested(oldValue, newValue) };
+  }
+  return {
+    nested: false,
+    state: valueStates.changed,
+    value: oldValue,
+    newValue,
+  };
+}
+
+export default compareObjectsNested;

@@ -37,6 +37,7 @@ export default [
   {
     rules: {
       'no-restricted-syntax': 'off',
+      'no-use-before-define': 'off',
       'no-underscore-dangle': [
         'error',
         {
