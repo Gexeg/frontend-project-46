@@ -1,5 +1,5 @@
 import getFileParser from '../libs/parser.js';
-import compareObjectsShallow from '../libs/comparator.js';
+import compareObjectsNested from '../libs/comparator.js';
 import formatOutput from '../libs/formatters/index.js';
 import { formatterNames } from '../libs/const.js';
 
@@ -12,7 +12,7 @@ const genDiff = (fp1, fp2, formatName = formatterNames.stylish) => {
   }
   const data1 = parser1(fp1);
   const data2 = parser2(fp2);
-  const changelog = compareObjectsShallow(data1, data2);
+  const changelog = compareObjectsNested(data1, data2);
   const output = formatOutput(formatName, changelog);
   return output;
 };
